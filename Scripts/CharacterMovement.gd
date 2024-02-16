@@ -5,6 +5,22 @@ var apply_gravity : bool
 var gravity = ProjectSettings.get("physics/2d/default_gravity")
 
 
+@onready var _animated_sprite = $AnimatedSprite2D
+
+func _process(_delta):
+	var input_direction = Input.get_vector("move_left", "move_right", "move_up", "move_down")
+
+	if input_direction.x != 0:
+		_animated_sprite.play("run")
+
+		# Flip the sprite based on the input direction
+		if input_direction.x > 0:
+			_animated_sprite.scale.x = 1  # Facing right
+		else:
+			_animated_sprite.scale.x = -1  # Facing left
+	else:
+		_animated_sprite.stop()
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	if self.motion_mode == 0: # Motion Mode 0 is for "grounded", which is like a platformer
